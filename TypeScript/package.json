@@ -9,7 +9,8 @@
     "test:jest": "jest",
     "test:jest:watch": "jest --watchAll",
     "test:mocha": "nyc mocha",
-    "test:vitest": "vitest --coverage"
+    "test:vitest": "vitest --coverage",
+    "test:texttexts": "npx ts-node test/golden-master-text-test.ts 30 > /tmp/test.out && diff --color /tmp/test.out ../texttests/ThirtyDays/stdout.gr"
   },
   "license": "MIT",
   "private": true,
