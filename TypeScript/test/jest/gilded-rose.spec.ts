@@ -30,26 +30,26 @@ describe('Gilded Rose', () => {
     });
   });
 
-  describe('Aged Brie', () => {
+  describe(ItemTypes.AGED_BRIE, () => {
     it('should lower sellIn by 1 and increase quality by 1', () => {
-      const gildedRose = new GildedRose([new Item('Aged Brie', 10, 8)]);
+      const gildedRose = new GildedRose([new Item(ItemTypes.AGED_BRIE, 10, 8)]);
       const items = gildedRose.updateQuality();
 
-      expect(items[0].name).toBe('Aged Brie');
+      expect(items[0].name).toBe(ItemTypes.AGED_BRIE);
       expect(items[0].sellIn).toBe(9);
       expect(items[0].quality).toBe(9);
     });
     it('should increase quality by 2 after sellin is less than 0', () => {
-      const gildedRose = new GildedRose([new Item('Aged Brie', -1, 8)]);
+      const gildedRose = new GildedRose([new Item(ItemTypes.AGED_BRIE, -1, 8)]);
       const items = gildedRose.updateQuality();
-      expect(items[0].name).toBe('Aged Brie');
+      expect(items[0].name).toBe(ItemTypes.AGED_BRIE);
       expect(items[0].sellIn).toBe(-2);
       expect(items[0].quality).toBe(10);
     });
     it('quality should be 50 or less', () => {
-      const gildedRose = new GildedRose([new Item('Aged Brie', 10, 50)]);
+      const gildedRose = new GildedRose([new Item(ItemTypes.AGED_BRIE, 10, 50)]);
       const items = gildedRose.updateQuality();
-      expect(items[0].name).toBe('Aged Brie');
+      expect(items[0].name).toBe(ItemTypes.AGED_BRIE);
       expect(items[0].sellIn).toBe(9);
       expect(items[0].quality).toBe(50);
     });
