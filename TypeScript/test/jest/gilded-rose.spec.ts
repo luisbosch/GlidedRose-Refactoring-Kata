@@ -1,138 +1,172 @@
-import { Item, GildedRose } from '@/gilded-rose';
+import { Item, ItemTypes } from '@/item';
+import { GildedRose } from '@/gilded-rose';
 
 describe('Gilded Rose', () => {
-    describe('Regular item', () => {
-      it('should lower sellIn by 1 and quality by 1', () => {
-        const gildedRose = new GildedRose([new Item('regular', 10, 8)]);
-        const items = gildedRose.updateQuality();
-        expect(items[0].name).toBe('regular');
-        expect(items[0].sellIn).toBe(9);
-        expect(items[0].quality).toBe(7);
-      });
-      it('should lower quality by 2 if sell date has passed', () => {
-        const gildedRose = new GildedRose([new Item('regular', 0, 8)]);
-        const items = gildedRose.updateQuality();
-        expect(items[0].name).toBe('regular');
-        expect(items[0].sellIn).toBe(-1);
-        expect(items[0].quality).toBe(6);
-      });
-      it('quality shouldnt be negative', () => {
-        const gildedRose = new GildedRose([new Item('regular', 10, 0), new Item('regular', 0, 0)]);
-        const items = gildedRose.updateQuality();
-
-        expect(items[0].name).toBe('regular');
-        expect(items[0].sellIn).toBe(9);
-        expect(items[0].quality).toBe(0);
-
-        expect(items[1].name).toBe('regular');
-        expect(items[1].sellIn).toBe(-1);
-        expect(items[1].quality).toBe(0);
-      });
+  describe('Regular item', () => {
+    it('should lower sellIn by 1 and quality by 1', () => {
+      const gildedRose = new GildedRose([new Item('regular', 10, 8)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].name).toBe('regular');
+      expect(items[0].sellIn).toBe(9);
+      expect(items[0].quality).toBe(7);
     });
-
-    describe('Aged Brie', () => {
-      it('should lower sellIn by 1 and increase quality by 1', () => {
-        const gildedRose = new GildedRose([new Item('Aged Brie', 10, 8)]);
-        const items = gildedRose.updateQuality();
-        expect(items[0].name).toBe('Aged Brie');
-        expect(items[0].sellIn).toBe(9);
-        expect(items[0].quality).toBe(9);
-      });
-      it('quality should be 50 or less', () => {
-        const gildedRose = new GildedRose([new Item('Aged Brie', 10, 50)]);
-        const items = gildedRose.updateQuality();
-        expect(items[0].name).toBe('Aged Brie');
-        expect(items[0].sellIn).toBe(9);
-        expect(items[0].quality).toBe(50);
-      });
+    it('should lower quality by 2 if sell date has passed', () => {
+      const gildedRose = new GildedRose([new Item('regular', 0, 8)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].name).toBe('regular');
+      expect(items[0].sellIn).toBe(-1);
+      expect(items[0].quality).toBe(6);
     });
+    it('quality shouldnt be negative', () => {
+      const gildedRose = new GildedRose([new Item('regular', 10, 0), new Item('regular', 0, 0)]);
+      const items = gildedRose.updateQuality();
 
-    describe('Sulfuras, Hand of Ragnaros', () => {
-      it('should keep selling and quality the same', () => {
-        const gildedRose = new GildedRose([new Item('Sulfuras, Hand of Ragnaros', 10, 8)]);
-        const items = gildedRose.updateQuality();
-        expect(items[0].name).toBe('Sulfuras, Hand of Ragnaros');
-        expect(items[0].sellIn).toBe(10);
-        expect(items[0].quality).toBe(8);
-      });
+      expect(items[0].name).toBe('regular');
+      expect(items[0].sellIn).toBe(9);
+      expect(items[0].quality).toBe(0);
+
+      expect(items[1].name).toBe('regular');
+      expect(items[1].sellIn).toBe(-1);
+      expect(items[1].quality).toBe(0);
     });
+  });
 
-    describe('Backstage passes to a TAFKAL80ETC concert', () => {
-      it('should lower quality by 1 when sellin is more than 10', () => {
-        const gildedRose = new GildedRose([
-          new Item('Backstage passes to a TAFKAL80ETC concert', 15, 8),
-          new Item('Backstage passes to a TAFKAL80ETC concert', 11, 8),
-        ]);
-        const items = gildedRose.updateQuality();
+  describe(ItemTypes.AGED_BRIE, () => {
+    it('should lower sellIn by 1 and increase quality by 1', () => {
+      const gildedRose = new GildedRose([new Item(ItemTypes.AGED_BRIE, 10, 8)]);
+      const items = gildedRose.updateQuality();
 
-        expect(items[0].name).toBe('Backstage passes to a TAFKAL80ETC concert');
-        expect(items[0].sellIn).toBe(14);
-        expect(items[0].quality).toBe(9);
-
-        expect(items[1].name).toBe('Backstage passes to a TAFKAL80ETC concert');
-        expect(items[1].sellIn).toBe(10);
-        expect(items[1].quality).toBe(9);
-      });
-      it('should lower quality by 2 when sellin between 10 days and 6 days', () => {
-        const gildedRose = new GildedRose([
-          new Item('Backstage passes to a TAFKAL80ETC concert', 10, 8),
-          new Item('Backstage passes to a TAFKAL80ETC concert', 6, 8),
-        ]);
-        const items = gildedRose.updateQuality();
-
-        expect(items[0].name).toBe('Backstage passes to a TAFKAL80ETC concert');
-        expect(items[0].sellIn).toBe(9);
-        expect(items[0].quality).toBe(10);
-
-        expect(items[1].name).toBe('Backstage passes to a TAFKAL80ETC concert');
-        expect(items[1].sellIn).toBe(5);
-        expect(items[1].quality).toBe(10);
-      });
-      it('should lower quality by 3 when sellin between 5 days and 1 days', () => {
-        const gildedRose = new GildedRose([
-          new Item('Backstage passes to a TAFKAL80ETC concert', 5, 8),
-          new Item('Backstage passes to a TAFKAL80ETC concert', 1, 8),
-        ]);
-        const items = gildedRose.updateQuality();
-
-        expect(items[0].name).toBe('Backstage passes to a TAFKAL80ETC concert');
-        expect(items[0].sellIn).toBe(4);
-        expect(items[0].quality).toBe(11);
-
-        expect(items[1].name).toBe('Backstage passes to a TAFKAL80ETC concert');
-        expect(items[1].sellIn).toBe(0);
-        expect(items[1].quality).toBe(11);
-      });
-      it('should lower quality by 3 when sellin between 5 days and 1 days', () => {
-        const gildedRose = new GildedRose([
-          new Item('Backstage passes to a TAFKAL80ETC concert', 0, 8),
-          new Item('Backstage passes to a TAFKAL80ETC concert', -1, 8),
-        ]);
-        const items = gildedRose.updateQuality();
-
-        expect(items[0].name).toBe('Backstage passes to a TAFKAL80ETC concert');
-        expect(items[0].sellIn).toBe(-1);
-        expect(items[0].quality).toBe(0);
-
-        expect(items[1].name).toBe('Backstage passes to a TAFKAL80ETC concert');
-        expect(items[1].sellIn).toBe(-2);
-        expect(items[1].quality).toBe(0);
-      });
+      expect(items[0].name).toBe(ItemTypes.AGED_BRIE);
+      expect(items[0].sellIn).toBe(9);
+      expect(items[0].quality).toBe(9);
     });
-    describe('Conjured', () => {
-      it('quality should degrade twice as fast as normal items', () => {
-        const gildedRose = new GildedRose([new Item('Conjured', 10, 8)]);
-        const items = gildedRose.updateQuality();
-        expect(items[0].name).toBe('Conjured');
-        expect(items[0].sellIn).toBe(9);
-        expect(items[0].quality).toBe(6);
-      });
-      it('quality should not be less than 0', () => {
-        const gildedRose = new GildedRose([new Item('Conjured', 10, 1)]);
-        const items = gildedRose.updateQuality();
-        expect(items[0].name).toBe('Conjured');
-        expect(items[0].sellIn).toBe(9);
-        expect(items[0].quality).toBe(0);
-      });
+    it('should increase quality by 2 after sellin is less than 0', () => {
+      const gildedRose = new GildedRose([new Item(ItemTypes.AGED_BRIE, -1, 8)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].name).toBe(ItemTypes.AGED_BRIE);
+      expect(items[0].sellIn).toBe(-2);
+      expect(items[0].quality).toBe(10);
     });
+    it('quality should be 50 or less', () => {
+      const gildedRose = new GildedRose([new Item(ItemTypes.AGED_BRIE, 10, 50)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].name).toBe(ItemTypes.AGED_BRIE);
+      expect(items[0].sellIn).toBe(9);
+      expect(items[0].quality).toBe(50);
+    });
+  });
+
+  describe(ItemTypes.SULFURAS, () => {
+    it('should keep selling and quality the same', () => {
+      const gildedRose = new GildedRose([new Item(ItemTypes.SULFURAS, 10, 8)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].name).toBe(ItemTypes.SULFURAS);
+      expect(items[0].sellIn).toBe(10);
+      expect(items[0].quality).toBe(8);
+    });
+  });
+
+  describe(ItemTypes.BACKSTAGE_PASSES, () => {
+    it('should lower quality by 1 when sellin is more than 10', () => {
+      const gildedRose = new GildedRose([
+        new Item(ItemTypes.BACKSTAGE_PASSES, 15, 8),
+        new Item(ItemTypes.BACKSTAGE_PASSES, 11, 8)
+      ]);
+      const items = gildedRose.updateQuality();
+
+      expect(items[0].name).toBe(ItemTypes.BACKSTAGE_PASSES);
+      expect(items[0].sellIn).toBe(14);
+      expect(items[0].quality).toBe(9);
+
+      expect(items[1].name).toBe(ItemTypes.BACKSTAGE_PASSES);
+      expect(items[1].sellIn).toBe(10);
+      expect(items[1].quality).toBe(9);
+    });
+    it('should lower quality by 2 when sellin between 10 days and 6 days', () => {
+      const gildedRose = new GildedRose([
+        new Item(ItemTypes.BACKSTAGE_PASSES, 10, 8),
+        new Item(ItemTypes.BACKSTAGE_PASSES, 6, 8)
+      ]);
+      const items = gildedRose.updateQuality();
+
+      expect(items[0].name).toBe(ItemTypes.BACKSTAGE_PASSES);
+      expect(items[0].sellIn).toBe(9);
+      expect(items[0].quality).toBe(10);
+
+      expect(items[1].name).toBe(ItemTypes.BACKSTAGE_PASSES);
+      expect(items[1].sellIn).toBe(5);
+      expect(items[1].quality).toBe(10);
+    });
+    it('should lower quality by 3 when sellin between 5 days and 1 days', () => {
+      const gildedRose = new GildedRose([
+        new Item(ItemTypes.BACKSTAGE_PASSES, 5, 8),
+        new Item(ItemTypes.BACKSTAGE_PASSES, 1, 8)
+      ]);
+      const items = gildedRose.updateQuality();
+
+      expect(items[0].name).toBe(ItemTypes.BACKSTAGE_PASSES);
+      expect(items[0].sellIn).toBe(4);
+      expect(items[0].quality).toBe(11);
+
+      expect(items[1].name).toBe(ItemTypes.BACKSTAGE_PASSES);
+      expect(items[1].sellIn).toBe(0);
+      expect(items[1].quality).toBe(11);
+    });
+    it('should lower quality by 3 when sellin between 5 days and 1 days', () => {
+      const gildedRose = new GildedRose([
+        new Item(ItemTypes.BACKSTAGE_PASSES, 0, 8),
+        new Item(ItemTypes.BACKSTAGE_PASSES, -1, 8)
+      ]);
+      const items = gildedRose.updateQuality();
+
+      expect(items[0].name).toBe(ItemTypes.BACKSTAGE_PASSES);
+      expect(items[0].sellIn).toBe(-1);
+      expect(items[0].quality).toBe(0);
+
+      expect(items[1].name).toBe(ItemTypes.BACKSTAGE_PASSES);
+      expect(items[1].sellIn).toBe(-2);
+      expect(items[1].quality).toBe(0);
+    });
+  });
+  describe(ItemTypes.CONJURED, () => {
+    it('quality should degrade twice as fast as normal items', () => {
+      const gildedRose = new GildedRose([
+        new Item(ItemTypes.CONJURED, 1, 8),
+        new Item(ItemTypes.CONJURED, 0, 8),
+        new Item(ItemTypes.CONJURED, -1, 8)
+      ]);
+      const items = gildedRose.updateQuality();
+
+      expect(items[0].name).toBe(ItemTypes.CONJURED);
+      expect(items[0].sellIn).toBe(0);
+      expect(items[0].quality).toBe(6);
+
+      expect(items[1].name).toBe(ItemTypes.CONJURED);
+      expect(items[1].sellIn).toBe(-1);
+      expect(items[1].quality).toBe(4);
+
+      expect(items[2].name).toBe(ItemTypes.CONJURED);
+      expect(items[2].sellIn).toBe(-2);
+      expect(items[2].quality).toBe(4);
+    });
+    it('quality should not be less than 0', () => {
+      const gildedRose = new GildedRose([
+        new Item(ItemTypes.CONJURED, 10, 1),
+        new Item(ItemTypes.CONJURED, 10, 0),
+        new Item(ItemTypes.CONJURED, -1, 0)
+      ]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].name).toBe(ItemTypes.CONJURED);
+      expect(items[0].sellIn).toBe(9);
+      expect(items[0].quality).toBe(0);
+
+      expect(items[1].name).toBe(ItemTypes.CONJURED);
+      expect(items[1].sellIn).toBe(9);
+      expect(items[1].quality).toBe(0);
+
+      expect(items[2].name).toBe(ItemTypes.CONJURED);
+      expect(items[2].sellIn).toBe(-2);
+      expect(items[2].quality).toBe(0);
+    });
+  });
 });
