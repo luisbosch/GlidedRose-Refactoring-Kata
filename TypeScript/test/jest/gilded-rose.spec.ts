@@ -127,43 +127,43 @@ describe('Gilded Rose', () => {
       expect(items[1].quality).toBe(0);
     });
   });
-  describe('Conjured Mana Cake', () => {
+  describe(ItemTypes.CONJURED, () => {
     it('quality should degrade twice as fast as normal items', () => {
       const gildedRose = new GildedRose([
-        new Item('Conjured Mana Cake', 1, 8),
-        new Item('Conjured Mana Cake', 0, 8),
-        new Item('Conjured Mana Cake', -1, 8)
+        new Item(ItemTypes.CONJURED, 1, 8),
+        new Item(ItemTypes.CONJURED, 0, 8),
+        new Item(ItemTypes.CONJURED, -1, 8)
       ]);
       const items = gildedRose.updateQuality();
 
-      expect(items[0].name).toBe('Conjured Mana Cake');
+      expect(items[0].name).toBe(ItemTypes.CONJURED);
       expect(items[0].sellIn).toBe(0);
       expect(items[0].quality).toBe(6);
 
-      expect(items[1].name).toBe('Conjured Mana Cake');
+      expect(items[1].name).toBe(ItemTypes.CONJURED);
       expect(items[1].sellIn).toBe(-1);
       expect(items[1].quality).toBe(4);
 
-      expect(items[2].name).toBe('Conjured Mana Cake');
+      expect(items[2].name).toBe(ItemTypes.CONJURED);
       expect(items[2].sellIn).toBe(-2);
       expect(items[2].quality).toBe(4);
     });
     it('quality should not be less than 0', () => {
       const gildedRose = new GildedRose([
-        new Item('Conjured Mana Cake', 10, 1),
-        new Item('Conjured Mana Cake', 10, 0),
-        new Item('Conjured Mana Cake', -1, 0)
+        new Item(ItemTypes.CONJURED, 10, 1),
+        new Item(ItemTypes.CONJURED, 10, 0),
+        new Item(ItemTypes.CONJURED, -1, 0)
       ]);
       const items = gildedRose.updateQuality();
-      expect(items[0].name).toBe('Conjured Mana Cake');
+      expect(items[0].name).toBe(ItemTypes.CONJURED);
       expect(items[0].sellIn).toBe(9);
       expect(items[0].quality).toBe(0);
 
-      expect(items[1].name).toBe('Conjured Mana Cake');
+      expect(items[1].name).toBe(ItemTypes.CONJURED);
       expect(items[1].sellIn).toBe(9);
       expect(items[1].quality).toBe(0);
 
-      expect(items[2].name).toBe('Conjured Mana Cake');
+      expect(items[2].name).toBe(ItemTypes.CONJURED);
       expect(items[2].sellIn).toBe(-2);
       expect(items[2].quality).toBe(0);
     });

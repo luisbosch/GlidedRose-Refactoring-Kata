@@ -14,6 +14,7 @@ export enum ItemTypes {
   SULFURAS = 'Sulfuras, Hand of Ragnaros',
   AGED_BRIE = 'Aged Brie',
   BACKSTAGE_PASSES = 'Backstage passes to a TAFKAL80ETC concert',
+  CONJURED = 'Conjured Mana Cake',
 }
 
 export const handleAgedBrie = (item: Item): void => {
@@ -28,7 +29,7 @@ export const handleAgedBrie = (item: Item): void => {
   }
 };
 
-export const handleBackstagePasses = (item: Item) => {
+export const handleBackstagePasses = (item: Item): void => {
   if (item.quality < 50) {
     item.quality = item.quality + 1;
     if (item.sellIn < 11) {
@@ -47,6 +48,24 @@ export const handleBackstagePasses = (item: Item) => {
 
   if (item.sellIn < 0) {
     item.quality = item.quality - item.quality;
+  }
+};
+
+const decreaseQualityHelper = (item: Item, rate: number): void => {
+  if (item.quality > 0) {
+    if (item.quality >= rate) {
+      item.quality = item.quality - rate;
+    } else {
+      item.quality = 0;
+    }
+  }
+};
+
+export const handleConjured = (item: Item): void => {
+  decreaseQualityHelper(item, 2);
+  item.sellIn = item.sellIn - 1;
+  if (item.sellIn < 0) {
+    decreaseQualityHelper(item, 2);
   }
 };
 
@@ -71,27 +90,14 @@ export class GildedRose {
         case ItemTypes.BACKSTAGE_PASSES:
           handleBackstagePasses(item);
           break;
+        case ItemTypes.CONJURED:
+          handleConjured(item);
+          break;
         default:
-          if (this.items[i].quality > 0) {
-            if (this.items[i].name === 'Conjured Mana Cake' && this.items[i].quality >= 2) {
-              this.items[i].quality = this.items[i].quality - 2;
-            } else {
-              this.items[i].quality = this.items[i].quality - 1;
-            }
-          }
-
+          decreaseQualityHelper(this.items[i], 1);
           this.items[i].sellIn = this.items[i].sellIn - 1;
-
           if (this.items[i].sellIn < 0) {
-            if (this.items[i].name !== ItemTypes.AGED_BRIE) {
-              if (this.items[i].quality > 0) {
-                if (this.items[i].name === 'Conjured Mana Cake' && this.items[i].quality >= 2) {
-                  this.items[i].quality = this.items[i].quality - 2;
-                } else {
-                  this.items[i].quality = this.items[i].quality - 1;
-                }
-              }
-            }
+            decreaseQualityHelper(this.items[i], 1);
           }
       }
     }
