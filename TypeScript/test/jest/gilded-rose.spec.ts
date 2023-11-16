@@ -65,64 +65,64 @@ describe('Gilded Rose', () => {
     });
   });
 
-  describe('Backstage passes to a TAFKAL80ETC concert', () => {
+  describe(ItemTypes.BACKSTAGE_PASSES, () => {
     it('should lower quality by 1 when sellin is more than 10', () => {
       const gildedRose = new GildedRose([
-        new Item('Backstage passes to a TAFKAL80ETC concert', 15, 8),
-        new Item('Backstage passes to a TAFKAL80ETC concert', 11, 8)
+        new Item(ItemTypes.BACKSTAGE_PASSES, 15, 8),
+        new Item(ItemTypes.BACKSTAGE_PASSES, 11, 8)
       ]);
       const items = gildedRose.updateQuality();
 
-      expect(items[0].name).toBe('Backstage passes to a TAFKAL80ETC concert');
+      expect(items[0].name).toBe(ItemTypes.BACKSTAGE_PASSES);
       expect(items[0].sellIn).toBe(14);
       expect(items[0].quality).toBe(9);
 
-      expect(items[1].name).toBe('Backstage passes to a TAFKAL80ETC concert');
+      expect(items[1].name).toBe(ItemTypes.BACKSTAGE_PASSES);
       expect(items[1].sellIn).toBe(10);
       expect(items[1].quality).toBe(9);
     });
     it('should lower quality by 2 when sellin between 10 days and 6 days', () => {
       const gildedRose = new GildedRose([
-        new Item('Backstage passes to a TAFKAL80ETC concert', 10, 8),
-        new Item('Backstage passes to a TAFKAL80ETC concert', 6, 8)
+        new Item(ItemTypes.BACKSTAGE_PASSES, 10, 8),
+        new Item(ItemTypes.BACKSTAGE_PASSES, 6, 8)
       ]);
       const items = gildedRose.updateQuality();
 
-      expect(items[0].name).toBe('Backstage passes to a TAFKAL80ETC concert');
+      expect(items[0].name).toBe(ItemTypes.BACKSTAGE_PASSES);
       expect(items[0].sellIn).toBe(9);
       expect(items[0].quality).toBe(10);
 
-      expect(items[1].name).toBe('Backstage passes to a TAFKAL80ETC concert');
+      expect(items[1].name).toBe(ItemTypes.BACKSTAGE_PASSES);
       expect(items[1].sellIn).toBe(5);
       expect(items[1].quality).toBe(10);
     });
     it('should lower quality by 3 when sellin between 5 days and 1 days', () => {
       const gildedRose = new GildedRose([
-        new Item('Backstage passes to a TAFKAL80ETC concert', 5, 8),
-        new Item('Backstage passes to a TAFKAL80ETC concert', 1, 8)
+        new Item(ItemTypes.BACKSTAGE_PASSES, 5, 8),
+        new Item(ItemTypes.BACKSTAGE_PASSES, 1, 8)
       ]);
       const items = gildedRose.updateQuality();
 
-      expect(items[0].name).toBe('Backstage passes to a TAFKAL80ETC concert');
+      expect(items[0].name).toBe(ItemTypes.BACKSTAGE_PASSES);
       expect(items[0].sellIn).toBe(4);
       expect(items[0].quality).toBe(11);
 
-      expect(items[1].name).toBe('Backstage passes to a TAFKAL80ETC concert');
+      expect(items[1].name).toBe(ItemTypes.BACKSTAGE_PASSES);
       expect(items[1].sellIn).toBe(0);
       expect(items[1].quality).toBe(11);
     });
     it('should lower quality by 3 when sellin between 5 days and 1 days', () => {
       const gildedRose = new GildedRose([
-        new Item('Backstage passes to a TAFKAL80ETC concert', 0, 8),
-        new Item('Backstage passes to a TAFKAL80ETC concert', -1, 8)
+        new Item(ItemTypes.BACKSTAGE_PASSES, 0, 8),
+        new Item(ItemTypes.BACKSTAGE_PASSES, -1, 8)
       ]);
       const items = gildedRose.updateQuality();
 
-      expect(items[0].name).toBe('Backstage passes to a TAFKAL80ETC concert');
+      expect(items[0].name).toBe(ItemTypes.BACKSTAGE_PASSES);
       expect(items[0].sellIn).toBe(-1);
       expect(items[0].quality).toBe(0);
 
-      expect(items[1].name).toBe('Backstage passes to a TAFKAL80ETC concert');
+      expect(items[1].name).toBe(ItemTypes.BACKSTAGE_PASSES);
       expect(items[1].sellIn).toBe(-2);
       expect(items[1].quality).toBe(0);
     });

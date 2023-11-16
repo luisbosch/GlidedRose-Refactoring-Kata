@@ -13,6 +13,7 @@ export class Item {
 export enum ItemTypes {
   SULFURAS = 'Sulfuras, Hand of Ragnaros',
   AGED_BRIE = 'Aged Brie',
+  BACKSTAGE_PASSES = 'Backstage passes to a TAFKAL80ETC concert',
 }
 
 export const handleAgedBrie = (item: Item): void => {
@@ -24,6 +25,28 @@ export const handleAgedBrie = (item: Item): void => {
     if (item.sellIn < 0) {
       item.quality = item.quality + 1;
     }
+  }
+};
+
+export const handleBackstagePasses = (item: Item) => {
+  if (item.quality < 50) {
+    item.quality = item.quality + 1;
+    if (item.sellIn < 11) {
+      if (item.quality < 50) {
+        item.quality = item.quality + 1;
+      }
+    }
+    if (item.sellIn < 6) {
+      if (item.quality < 50) {
+        item.quality = item.quality + 1;
+      }
+    }
+  }
+
+  item.sellIn = item.sellIn - 1;
+
+  if (item.sellIn < 0) {
+    item.quality = item.quality - item.quality;
   }
 };
 
@@ -45,30 +68,15 @@ export class GildedRose {
         case ItemTypes.AGED_BRIE:
           handleAgedBrie(item);
           break;
+        case ItemTypes.BACKSTAGE_PASSES:
+          handleBackstagePasses(item);
+          break;
         default:
-          if (this.items[i].name !== 'Backstage passes to a TAFKAL80ETC concert') {
-            if (this.items[i].quality > 0) {
-              if (this.items[i].name === 'Conjured Mana Cake' && this.items[i].quality >= 2) {
-                this.items[i].quality = this.items[i].quality - 2;
-              } else {
-                this.items[i].quality = this.items[i].quality - 1;
-              }
-            }
-          } else {
-            if (this.items[i].quality < 50) {
-              this.items[i].quality = this.items[i].quality + 1;
-              if (this.items[i].name === 'Backstage passes to a TAFKAL80ETC concert') {
-                if (this.items[i].sellIn < 11) {
-                  if (this.items[i].quality < 50) {
-                    this.items[i].quality = this.items[i].quality + 1;
-                  }
-                }
-                if (this.items[i].sellIn < 6) {
-                  if (this.items[i].quality < 50) {
-                    this.items[i].quality = this.items[i].quality + 1;
-                  }
-                }
-              }
+          if (this.items[i].quality > 0) {
+            if (this.items[i].name === 'Conjured Mana Cake' && this.items[i].quality >= 2) {
+              this.items[i].quality = this.items[i].quality - 2;
+            } else {
+              this.items[i].quality = this.items[i].quality - 1;
             }
           }
 
@@ -76,16 +84,12 @@ export class GildedRose {
 
           if (this.items[i].sellIn < 0) {
             if (this.items[i].name !== ItemTypes.AGED_BRIE) {
-              if (this.items[i].name !== 'Backstage passes to a TAFKAL80ETC concert') {
-                if (this.items[i].quality > 0) {
-                  if (this.items[i].name === 'Conjured Mana Cake' && this.items[i].quality >= 2) {
-                    this.items[i].quality = this.items[i].quality - 2;
-                  } else {
-                    this.items[i].quality = this.items[i].quality - 1;
-                  }
+              if (this.items[i].quality > 0) {
+                if (this.items[i].name === 'Conjured Mana Cake' && this.items[i].quality >= 2) {
+                  this.items[i].quality = this.items[i].quality - 2;
+                } else {
+                  this.items[i].quality = this.items[i].quality - 1;
                 }
-              } else {
-                this.items[i].quality = this.items[i].quality - this.items[i].quality;
               }
             }
           }
