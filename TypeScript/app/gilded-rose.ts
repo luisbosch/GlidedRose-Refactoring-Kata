@@ -69,6 +69,13 @@ export const handleConjured = (item: Item): void => {
   }
 };
 
+export const handleDefault = (item: Item): void => {
+  decreaseQualityHelper(item, 1);
+  item.sellIn = item.sellIn - 1;
+  if (item.sellIn < 0) {
+    decreaseQualityHelper(item, 1);
+  }
+};
 export class GildedRose {
   items: Item[];
 
@@ -94,11 +101,7 @@ export class GildedRose {
           handleConjured(item);
           break;
         default:
-          decreaseQualityHelper(this.items[i], 1);
-          this.items[i].sellIn = this.items[i].sellIn - 1;
-          if (this.items[i].sellIn < 0) {
-            decreaseQualityHelper(this.items[i], 1);
-          }
+          handleDefault(item);
       }
     }
 
