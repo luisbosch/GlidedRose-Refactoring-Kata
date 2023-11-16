@@ -76,6 +76,7 @@ export const handleDefault = (item: Item): void => {
     decreaseQualityHelper(item, 1);
   }
 };
+
 export class GildedRose {
   items: Item[];
 
