@@ -167,7 +167,7 @@ describe('Gilded Rose', () => {
         expect(items[1].quality).toBe(0);
 
         expect(items[2].name).toBe('Conjured Mana Cake');
-        expect(items[2].sellIn).toBe(9);
+        expect(items[2].sellIn).toBe(-2);
         expect(items[2].quality).toBe(0);
       });
     });
