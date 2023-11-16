@@ -1,4 +1,4 @@
-import { Item, GildedRose } from '@/gilded-rose';
+import { Item, ItemTypes, GildedRose } from '@/gilded-rose';
 
 describe('Gilded Rose', () => {
   describe('Regular item', () => {
@@ -55,11 +55,11 @@ describe('Gilded Rose', () => {
     });
   });
 
-  describe('Sulfuras, Hand of Ragnaros', () => {
+  describe(ItemTypes.SULFURAS, () => {
     it('should keep selling and quality the same', () => {
-      const gildedRose = new GildedRose([new Item('Sulfuras, Hand of Ragnaros', 10, 8)]);
+      const gildedRose = new GildedRose([new Item(ItemTypes.SULFURAS, 10, 8)]);
       const items = gildedRose.updateQuality();
-      expect(items[0].name).toBe('Sulfuras, Hand of Ragnaros');
+      expect(items[0].name).toBe(ItemTypes.SULFURAS);
       expect(items[0].sellIn).toBe(10);
       expect(items[0].quality).toBe(8);
     });
