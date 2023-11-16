@@ -34,9 +34,19 @@ describe('Gilded Rose', () => {
       it('should lower sellIn by 1 and increase quality by 1', () => {
         const gildedRose = new GildedRose([new Item('Aged Brie', 10, 8)]);
         const items = gildedRose.updateQuality();
+
         expect(items[0].name).toBe('Aged Brie');
         expect(items[0].sellIn).toBe(9);
         expect(items[0].quality).toBe(9);
+
+      });
+      it('should increase quality by 2 after sellin is less than 0', () => {
+        const gildedRose = new GildedRose([new Item('Aged Brie', -1, 8)]);
+        const items = gildedRose.updateQuality();
+        expect(items[0].name).toBe('Aged Brie');
+        expect(items[0].sellIn).toBe(-2);
+        expect(items[0].quality).toBe(10);
+
       });
       it('quality should be 50 or less', () => {
         const gildedRose = new GildedRose([new Item('Aged Brie', 10, 50)]);
@@ -119,20 +129,46 @@ describe('Gilded Rose', () => {
         expect(items[1].quality).toBe(0);
       });
     });
-    describe('Conjured', () => {
+    describe('Conjured Mana Cake', () => {
       it('quality should degrade twice as fast as normal items', () => {
-        const gildedRose = new GildedRose([new Item('Conjured', 10, 8)]);
+        const gildedRose = new GildedRose([
+          new Item('Conjured Mana Cake', 1, 8),
+          new Item('Conjured Mana Cake', 0, 8),
+          new Item('Conjured Mana Cake', -1, 8),
+        ]);
         const items = gildedRose.updateQuality();
-        expect(items[0].name).toBe('Conjured');
-        expect(items[0].sellIn).toBe(9);
+
+        expect(items[0].name).toBe('Conjured Mana Cake');
+        expect(items[0].sellIn).toBe(0);
         expect(items[0].quality).toBe(6);
+
+        expect(items[1].name).toBe('Conjured Mana Cake');
+        expect(items[1].sellIn).toBe(-1);
+        expect(items[1].quality).toBe(4);
+
+        expect(items[2].name).toBe('Conjured Mana Cake');
+        expect(items[2].sellIn).toBe(-2);
+        expect(items[2].quality).toBe(4);
+
       });
       it('quality should not be less than 0', () => {
-        const gildedRose = new GildedRose([new Item('Conjured', 10, 1)]);
+        const gildedRose = new GildedRose([
+          new Item('Conjured Mana Cake', 10, 1),
+          new Item('Conjured Mana Cake', 10, 0),
+          new Item('Conjured Mana Cake', -1, 0),
+        ]);
         const items = gildedRose.updateQuality();
-        expect(items[0].name).toBe('Conjured');
+        expect(items[0].name).toBe('Conjured Mana Cake');
         expect(items[0].sellIn).toBe(9);
         expect(items[0].quality).toBe(0);
+
+        expect(items[1].name).toBe('Conjured Mana Cake');
+        expect(items[1].sellIn).toBe(9);
+        expect(items[1].quality).toBe(0);
+
+        expect(items[2].name).toBe('Conjured Mana Cake');
+        expect(items[2].sellIn).toBe(9);
+        expect(items[2].quality).toBe(0);
       });
     });
 });
